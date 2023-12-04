@@ -1,0 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/04 20:02:30 by kishizu           #+#    #+#             */
+/*   Updated: 2023/12/04 20:02:34 by kishizu          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fdf.h"
+
+int	count_x_len(char **oneline_map)
+{
+	int	x_len;
+	int	numstr_len;
+	int	i;
+
+	x_len = 0;
+	while (oneline_map[x_len] != NULL)
+	{
+		numstr_len = ft_strlen(oneline_map[x_len]);
+		i = 0;
+		while (i < numstr_len)
+		{
+			if (ft_isdigit(oneline_map[x_len][i]) == 0)
+				ft_put_originalerror("map is invalid!"); 
+			// printf("%s[%d]\n", oneline_map[x_len], x_len);
+			i++;
+		}
+		x_len++;
+		// printf ("---%s---\n", oneline_map[x_len]);
+	}
+	return (x_len);
+}
+
+void	ft_free_splitedline(char **ptr)
+{
+	int i;
+
+	i = 0;
+	while (ptr[i] != NULL)
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free (ptr);
+}
+
+
+static int	check_peroneline(t_info *fdf, int map_fd)
+{
+	char	*oneline;
+	char	**splitedline;
+	int		x_len;
+	int		tmp_x_len;
+	int		y_len;
+	
+	y_len = 0;
+	while (1)
+	{
+		oneline = get_next_line(map_fd);
+		if (oneline == NULL)
+			break ;
+		splitedline = ft_split(oneline, ' ');
+		tmp_x_len = count_x_len(splitedline);
+		if (y_len == 0)
+			x_len = tmp_x_len;
+		// printf ("[%d](%s)%d[%d]\n",y_len, oneline,tmp_x_len, x_len);
+		if (y_len != 0 && tmp_x_len != x_len)
+			ft_put_originalerror("map is invalid!");
+		x_len = tmp_x_len;
+		y_len++;
+		free (oneline);
+		ft_free_splitedline(splitedline);
+	}
+	fdf->x_len = x_len;
+	fdf->y_len = y_len;
+	return (NO_ERROR);
+}
+
+int check_map(t_info *fdf, char *filename)
+{
+	int		map_fd;
+
+	map_fd = open(filename, O_RDONLY);
+	if (map_fd == -1)
+		ft_put_systemerror("open");
+	check_peroneline(fdf, map_fd);
+	close (map_fd);
+	return (NO_ERROR);
+}

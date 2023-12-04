@@ -6,13 +6,11 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:05:07 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 20:05:12 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/04 22:19:33 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-#define BUFFER_SIZE 42
 
 static char	*copy_to_note_copy(int fd, char *note)
 {

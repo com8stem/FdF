@@ -1,24 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   fdf_main.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 17:56:48 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/01 19:23:18 by kishizu          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "fdf.h"
-
-int	check_arg(int argc, char **argv)
-{
-	if (argc < 2)
-		exit(EXIT_FAILURE);
-	return (0);
-}
-
 
 typedef struct	s_data {
 	void	*img;
@@ -49,14 +29,11 @@ int	close(t_vars *vars)
 
 int	main(int argc, char **argv)
 {
-	check_arg(argc, argv);
-	check_map(argv[1]);
-
-
-
 	t_vars	vars;
 	t_data	img;
 	int	i = 0;
+	check_arg(argc, argv);
+	check_map(argv[1]);
 
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "FdF");

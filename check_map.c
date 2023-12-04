@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:30 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 20:02:34 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/04 22:10:38 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	check_peroneline(t_info *fdf, int map_fd)
 	int		x_len;
 	int		tmp_x_len;
 	int		y_len;
-	
+
 	y_len = 0;
 	while (1)
 	{
@@ -68,7 +68,6 @@ static int	check_peroneline(t_info *fdf, int map_fd)
 		tmp_x_len = count_x_len(splitedline);
 		if (y_len == 0)
 			x_len = tmp_x_len;
-		// printf ("[%d](%s)%d[%d]\n",y_len, oneline,tmp_x_len, x_len);
 		if (y_len != 0 && tmp_x_len != x_len)
 			ft_put_originalerror("map is invalid!");
 		x_len = tmp_x_len;
@@ -81,7 +80,7 @@ static int	check_peroneline(t_info *fdf, int map_fd)
 	return (NO_ERROR);
 }
 
-int check_map(t_info *fdf, char *filename)
+int	check_map(t_info *fdf, char *filename)
 {
 	int		map_fd;
 

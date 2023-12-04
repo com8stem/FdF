@@ -6,20 +6,20 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:29 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 20:03:37 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/04 22:26:37 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	rotate_z_axis(t_info *fdf)
+static void	rotate_z_axis(t_info *fdf)
 {
 	int		point_index;
 	double	tmp_x;
 	double	tmp_y;
 	double	angle;
 
-	angle = 3.14 / 4.0;
+	angle = M_PI_4;
 	point_index = 0;
 	while (point_index < fdf->points)
 	{
@@ -31,7 +31,7 @@ void	rotate_z_axis(t_info *fdf)
 	}
 }
 
-void	rotate_x_axis(t_info *fdf)
+static void	rotate_x_axis(t_info *fdf)
 {
 	int		point_index;
 	double	tmp_y;
@@ -52,7 +52,6 @@ void	rotate_x_axis(t_info *fdf)
 
 int	convert_coordinates(t_info *fdf)
 {
-	//(void)fdf;
 	rotate_z_axis(fdf);
 	rotate_x_axis(fdf);
 	return (NO_ERROR);

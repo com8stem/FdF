@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:59 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 20:03:09 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/04 22:32:42 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_free_splited(char **ptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (ptr[i] != NULL)
@@ -58,7 +58,7 @@ int	read_map(t_info *fdf, int map_fd)
 	return (NO_ERROR);
 }
 
-void set_coordinates(t_info *fdf)
+void	set_coordinates(t_info *fdf)
 {
 	int	x;
 	int	y;
@@ -67,7 +67,6 @@ void set_coordinates(t_info *fdf)
 	points = 0;
 	y = 0;
 	fdf->xyz = (t_coordinates *)malloc(((fdf->x_len) * (fdf->y_len)) * sizeof(t_coordinates));
-	printf("[%p]\n", fdf->xyz);
 	if (fdf->xyz == NULL)
 		ft_put_originalerror("failed to allocate!");
 	while (y < fdf->y_len)
@@ -80,6 +79,8 @@ void set_coordinates(t_info *fdf)
 			fdf->xyz[points].x = x;
 			fdf->xyz[points].y = y;
 			fdf->xyz[points].z = fdf->map_int[y][x];
+			printf ("[%d][%d][%d]\n", x, y, fdf->xyz[points].z);
+			fflush(stdout);
 			x++;
 			points++;
 		}
@@ -88,10 +89,10 @@ void set_coordinates(t_info *fdf)
 	fdf->points = points;
 }
 
-int	get_mapinfo (t_info *fdf, char *filename)
+int	get_mapinfo(t_info *fdf, char *filename)
 {
 	int	map_fd;
-	
+
 	map_fd = open (filename, O_RDONLY);
 	if (map_fd == -1)
 		ft_put_systemerror("open");

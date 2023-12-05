@@ -1,20 +1,21 @@
-TARGET = fdf
+NAME = fdf
 SRCS = check_argc.c check_filename.c check_map.c convert_coordinates.c create_window.c draw_wireframe.c get_mapinfo.c get_next_line.c main.c put_error.c\
 		get_next_line_copy.c
 OBJS = $(SRCS:.c=.o)
+HEADER = fdf.h
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LINUX_MLXFLAGS = -lmlx_Linux -lXext -lX11 -lm #for Linux
+#LINUX_MLXFLAGS = -lmlx_Linux -lXext -lX11 -lm #for Linux
 MLXFLAGS = -Imlx -lmlx -framework OpenGL -framework AppKit -lm
 LIBDIR = ./libft
 LIBFT = ./libft/libft.a
 
-all:	$(TARGET)
+all:	$(NAME)
 
-$(TARGET):	$(OBJS) $(LIBFT)
-	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(MLXFLAGS) -o $(TARGET)
+$(NAME):	$(OBJS) $(LIBFT)
+	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(MLXFLAGS) -o $(NAME)
 
-$(OBJS):	$(SRCS)
+$(OBJS):	$(SRCS) $(HEADER)
 	$(CC) $(CFLAGS) -c $(SRCS)
 
 $(LIBFT):
@@ -25,11 +26,9 @@ clean:
 	make clean -C $(LIBDIR)
 
 fclean:	clean
-	rm -rf $(TARGET)
+	rm -rf $(NAME)
 	make fclean -C $(LIBDIR)
 
 re: fclean all
 
-bonus:	all
-
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

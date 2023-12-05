@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:59 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 22:32:42 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/05 21:49:02 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	set_coordinates(t_info *fdf)
 			fdf->xyz[points].x = x;
 			fdf->xyz[points].y = y;
 			fdf->xyz[points].z = fdf->map_int[y][x];
-			printf ("[%d][%d][%d]\n", x, y, fdf->xyz[points].z);
+			// printf ("[%d][%d][%d]\n", x, y, fdf->xyz[points].z);
 			fflush(stdout);
 			x++;
 			points++;

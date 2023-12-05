@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:30 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 22:10:38 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/05 22:23:51 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,21 @@ int	count_x_len(char **oneline_map)
 		i = 0;
 		while (i < numstr_len)
 		{
-			if (ft_isdigit(oneline_map[x_len][i]) == 0)
+			if (ft_isdigit(oneline_map[x_len][i]) == 0 && (i == 0 && oneline_map[x_len][i] != '-'))
 				ft_put_originalerror("map is invalid!"); 
-			// printf("%s[%d]\n", oneline_map[x_len], x_len);
 			i++;
 		}
 		x_len++;
-		// printf ("---%s---\n", oneline_map[x_len]);
 	}
 	return (x_len);
 }
 
-void	ft_free_splitedline(char **ptr)
+void	ft_free_oneline_and_splitedline(char *oneline, char **ptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
+	free (oneline);
 	while (ptr[i] != NULL)
 	{
 		free(ptr[i]);
@@ -72,8 +71,7 @@ static int	check_peroneline(t_info *fdf, int map_fd)
 			ft_put_originalerror("map is invalid!");
 		x_len = tmp_x_len;
 		y_len++;
-		free (oneline);
-		ft_free_splitedline(splitedline);
+		ft_free_oneline_and_splitedline(oneline, splitedline);
 	}
 	fdf->x_len = x_len;
 	fdf->y_len = y_len;

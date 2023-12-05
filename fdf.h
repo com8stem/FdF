@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 20:01:21 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 22:19:11 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/05 20:20:11 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdio.h>
 # include "mlx.h"
 # include "./libft/libft.h"
 // #include <X11/X.h> // for Linux
@@ -51,7 +52,6 @@ typedef struct s_data
 	int		line_length;
 	int		endian;
 }	t_data;
-
 
 char	*get_next_line(int fd);
 char	*get_next_line_copy(int fd);

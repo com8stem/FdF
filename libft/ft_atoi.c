@@ -6,13 +6,13 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:24:14 by kishizu           #+#    #+#             */
-/*   Updated: 2023/10/03 20:25:53 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/05 20:32:51 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	check_over(const char *nb, long num, int sign)
+static int	check_over(const char *nb, long num, int sign)
 {
 	long	next_digit;
 

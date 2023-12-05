@@ -6,12 +6,11 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:00:07 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 20:00:18 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/05 21:15:17 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-# include "mlx.h"
 
 int	main(int argc, char **argv)
 {

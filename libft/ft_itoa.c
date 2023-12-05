@@ -6,13 +6,13 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:46:35 by kishizu           #+#    #+#             */
-/*   Updated: 2023/09/25 20:24:36 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/05 20:33:11 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	count_digits(int num)
+static int	count_digits(int num)
 {
 	int		digits;
 	long	n;

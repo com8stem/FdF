@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:29 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/05 21:17:10 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/06 19:59:07 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,54 @@ static void	rotate_x_axis(t_info *fdf)
 	}
 }
 
+#define INIMV 300
+#define ENLRATE 25
+
+static void	enlarge_frame(t_info *fdf)
+{
+	int		point_index;
+	double	tmp_x;
+	double	tmp_y;
+	double	tmp_z;
+
+	point_index = 0;
+	while (point_index < fdf->points)
+	{
+		tmp_x = fdf->xyz[point_index].x;
+		tmp_y = fdf->xyz[point_index].y;
+		tmp_z = fdf->xyz[point_index].z;
+		fdf->xyz[point_index].x = tmp_x * ENLRATE;
+		fdf->xyz[point_index].y = tmp_y * ENLRATE;
+		fdf->xyz[point_index].z = tmp_z * ENLRATE;
+		point_index++;
+	}
+}
+
+static void	move_frame(t_info *fdf)
+{
+	int		point_index;
+	double	tmp_x;
+	double	tmp_y;
+	double	tmp_z;
+
+	point_index = 0;
+	while (point_index < fdf->points)
+	{
+		tmp_x = fdf->xyz[point_index].x;
+		tmp_y = fdf->xyz[point_index].y;
+		tmp_z = fdf->xyz[point_index].z;
+		fdf->xyz[point_index].x = tmp_x + INIMV;
+		fdf->xyz[point_index].y = tmp_y + INIMV;
+		fdf->xyz[point_index].z = tmp_z + INIMV;
+		point_index++;
+	}
+}
+
 int	convert_coordinates(t_info *fdf)
 {
 	rotate_z_axis(fdf);
 	rotate_x_axis(fdf);
+	enlarge_frame(fdf);
+	move_frame(fdf);
 	return (NO_ERROR);
 }

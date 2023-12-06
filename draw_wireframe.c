@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:57 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/05 22:36:26 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/06 19:49:20 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,6 @@ void drawline(int x1, int y1, int x2, int y2, t_data *img)
 	draw++;
 }
 
-#define INIMV 300
-#define ENLRATE 25
-
 int	draw_wireframe(t_info *fdf, t_data *img)
 {
 	int	tmp_x;
@@ -71,11 +68,9 @@ int	draw_wireframe(t_info *fdf, t_data *img)
 		tmp_x = fdf->xyz[points].x;
 		tmp_y = fdf->xyz[points].y;
 		if ((points + 1) % fdf->x_len != 0)
-			drawline((tmp_x * ENLRATE) + INIMV, (tmp_y * ENLRATE) + INIMV, (fdf->xyz[points + 1].x
-					* ENLRATE) + INIMV, (fdf->xyz[points + 1].y * ENLRATE) + INIMV, img);
+			drawline(tmp_x, tmp_y, fdf->xyz[points + 1].x, fdf->xyz[points + 1].y, img);
 		if (points / fdf->x_len != (fdf->y_len - 1))
-			drawline((tmp_x * ENLRATE) + INIMV, (tmp_y * ENLRATE) + INIMV, (fdf->xyz[points
-					+ fdf->x_len].x * ENLRATE) + INIMV, (fdf->xyz[points + fdf->x_len].y * ENLRATE) + INIMV, img);
+			drawline(tmp_x, tmp_y, fdf->xyz[points + fdf->x_len].x, fdf->xyz[points + fdf->x_len].y, img);
 		points++;
 		// printf("[%d][%d]\n", points, fdf->points);
 	}

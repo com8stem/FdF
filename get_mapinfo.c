@@ -80,7 +80,7 @@ void	set_coordinates(t_info *fdf)
 			fdf->xyz[points].y = y;
 			fdf->xyz[points].z = fdf->map_int[y][x];
 			// printf ("[%d][%d][%d]\n", x, y, fdf->xyz[points].z);
-			fflush(stdout);
+			// fflush(stdout);
 			x++;
 			points++;
 		}

@@ -20,58 +20,44 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	drawline(int x0, int y0, int x1, int y1, t_data *img)
+void drawline(int x1, int y1, int x2, int y2, t_data *img)
 {
-	int	dx;
-	int	dy;
-	int	err;
-	int	e2;
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+    int sx = (x1 < x2) ? 1 : -1;
+    int sy = (y1 < y2) ? 1 : -1;
 
-	dx = abs(x1 - x0);
-	dy = abs(y1 - y0);
-	int sx, sy;
-	if (x0 < x1)
+	static int draw = 0;
+	// static size_t i = 0;
+    int error = dx - dy;
+	printf("%d:(%d:%d) - (%d:%d)\n", draw,x1,y1,x2,y2);
+    while (1)
 	{
-		sx = 1;
-	}
-	else
-	{
-		sx = -1;
-	}
-	if (y0 < y1)
-	{
-		sy = 1;
-	}
-	else
-	{
-		sy = -1;
-	}
-	err = dx - dy;
-	while (1)
-	{
-		// 描画処理（例: ピクセルの表示）
-		// printf("(%d, %d)\n", x0, y0);
-		my_mlx_pixel_put(img, x0, y0, 0x00FFFFFF);
-		if (x0 >= x1 && y0 >= y1)
+        // 描画処理（ここでは単に表示しますが、実際のアプリケーションでは描画関数を使用してください）
+        // printf("[countcall:%d]{%zu}(%d, %d)\n", draw,i++, x1, y1);
+		my_mlx_pixel_put(img, x1, y1, 0x00FFFFFF);	
+        if ((x1 >= 1000 || y1 >= 1000)||(x1 == x2 && y1 == y2)) 
 		{
-			break ;
-		}
-		e2 = 2 * err;
-		if (e2 > -dy)
-		{
-			err = err - dy;
-			x0 = x0 + sx;
-		}
-		if (e2 < dx)
-		{
-			err = err + dx;
-			y0 = y0 + sy;
-		}
-	}
+            break;
+        }
+
+        int e2 = 2 * error;
+
+        if (e2 > -dy) {
+            error = error - dy;
+            x1 = x1 + sx;
+        }
+
+        if (e2 < dx) {
+            error = error + dx;
+            y1 = y1 + sy;
+        }
+    }
+	draw++;
 }
 
 #define INIMV 300
-#define ENLRATE 20
+#define ENLRATE 25
 
 int	draw_wireframe(t_info *fdf, t_data *img)
 {
@@ -82,18 +68,16 @@ int	draw_wireframe(t_info *fdf, t_data *img)
 	points = 0;
 	while (points < fdf->points)
 	{
-		tmp_x = fdf->xyz[points].x * ENLRATE;
-		tmp_y = fdf->xyz[points].y * ENLRATE;
+		tmp_x = fdf->xyz[points].x;
+		tmp_y = fdf->xyz[points].y;
 		if ((points + 1) % fdf->x_len != 0)
-			drawline(tmp_x + INIMV, tmp_y + INIMV, (fdf->xyz[points + 1].x
-					* ENLRATE) + INIMV, (fdf->xyz[points + 1].y * ENLRATE)
-				+ INIMV, img);
-		if ((points + 1) / fdf->x_len != (fdf->y_len))
-			drawline(tmp_x + INIMV, tmp_y + INIMV, (fdf->xyz[points
-					+ fdf->x_len].x * ENLRATE) + INIMV, (fdf->xyz[points
-					+ fdf->x_len].y * ENLRATE) + INIMV, img);
+			drawline((tmp_x * ENLRATE) + INIMV, (tmp_y * ENLRATE) + INIMV, (fdf->xyz[points + 1].x
+					* ENLRATE) + INIMV, (fdf->xyz[points + 1].y * ENLRATE) + INIMV, img);
+		if (points / fdf->x_len != (fdf->y_len - 1))
+			drawline((tmp_x * ENLRATE) + INIMV, (tmp_y * ENLRATE) + INIMV, (fdf->xyz[points
+					+ fdf->x_len].x * ENLRATE) + INIMV, (fdf->xyz[points + fdf->x_len].y * ENLRATE) + INIMV, img);
 		points++;
-		printf("[%d][%d]\n", points, fdf->points);
+		// printf("[%d][%d]\n", points, fdf->points);
 	}
 	return (NO_ERROR);
 }

@@ -33,13 +33,13 @@ void drawline(int x1, int y1, int x2, int y2, t_data *img)
 	printf("%d:(%d:%d) - (%d:%d)\n", draw,x1,y1,x2,y2);
     while (1)
 	{
-        // 描画処理（ここでは単に表示しますが、実際のアプリケーションでは描画関数を使用してください）
-        // printf("[countcall:%d]{%zu}(%d, %d)\n", draw,i++, x1, y1);
-		my_mlx_pixel_put(img, x1, y1, 0x00FFFFFF);	
-        if ((x1 >= 1000 || y1 >= 1000)||(x1 == x2 && y1 == y2)) 
+        if ((x1 >= WIDTH || y1 >= HAIGHT)||(x1 == x2 && y1 == y2) || (x1 < 0 || y1 < 0)) 
 		{
             break;
         }
+        // 描画処理（ここでは単に表示しますが、実際のアプリケーションでは描画関数を使用してください）
+        // printf("[countcall:%d]{%zu}(%d, %d)\n", draw,i++, x1, y1);
+		my_mlx_pixel_put(img, x1, y1, 0x00FFFFFF);	
 
         int e2 = 2 * error;
 
@@ -72,7 +72,7 @@ int	draw_wireframe(t_info *fdf, t_data *img)
 		if (points / fdf->x_len != (fdf->y_len - 1))
 			drawline(tmp_x, tmp_y, fdf->xyz[points + fdf->x_len].x, fdf->xyz[points + fdf->x_len].y, img);
 		points++;
-		// printf("[%d][%d]\n", points, fdf->points);
+		printf("[%d][%d]\n", points, fdf->points);
 	}
 	return (NO_ERROR);
 }

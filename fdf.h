@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 20:01:21 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/06 19:46:50 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/07 22:54:08 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@
 // #include <X11/keysym.h> // for Linux
 
 # define NO_ERROR 0
-# define BUFFER_SIZE 100
+# define BUFFER_SIZE 10000
+
+# define WIDTH 1000
+# define HAIGHT 1000
 
 typedef struct s_coordinate
 {
 	double	x;
 	double	y;
 	double	z;
+	int		color;
 }	t_coordinates;
 
 typedef struct s_info
@@ -41,8 +45,23 @@ typedef struct s_info
 	t_coordinates	*xyz;
 	int				x_len;
 	int				y_len;
+	int				*color;
+	int				min_x;
+	int				min_y;
+	int				max_x;
+	int				max_y;
 	int				points;
 }	t_info;
+
+typedef struct s_lineinfo
+{
+	double	start_x;
+	double	start_y;
+	double	end_x;
+	double	end_y;
+	int		start_color;
+	int		end_color;
+}	t_lineinfo;
 
 typedef struct s_data
 {
@@ -63,7 +82,12 @@ int		check_argc(int argc);
 int		check_filename(char *filename);
 int		check_map(t_info *fdf, char *filename);
 int		get_mapinfo(t_info *fdf, char *filename);
+
 int		convert_coordinates(t_info *fdf);
+void	get_min_coordinates(t_info *fdf);
+void	get_max_coordinates(t_info *fdf);
+
+
 int		create_window(void *mlx, void *mlxwin);
 int		draw_wireframe(t_info *fdf, t_data *img);
 

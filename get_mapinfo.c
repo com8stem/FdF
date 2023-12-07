@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:59 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/06 19:52:25 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/07 23:06:36 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,37 @@ void	ft_free_splited(char **ptr)
 	free (ptr);
 }
 
+int	ft_atoi_color(const char *str)
+{
+	long	num;
+	long	sign;
+
+	num = 0;
+	sign = 1;
+	while (*str != 'x')
+		str++;
+	str++;
+	// if (*str == '-' || *str == '+')
+	// {
+	// 	if (*str == '-')
+	// 		sign = sign * (-1);
+	// 	str++;
+	// }
+	while ((*str >= '0' && *str <= '9') || (*str >= 'A' && *str <= 'F')) 
+	{
+		if (*str >= '0' && *str <= '9')
+			num = (16 * num) + (*str - '0');
+		else if (*str >= 'A' && *str <= 'F')
+			num = (16 * num) + (*str - 'A');
+		str++;
+		// if (check_over(str, num, sign) == 1)
+		// 	return ((int)LONG_MAX);
+		// if (check_over(str, num, sign) == -1)
+		// 	return ((int)LONG_MIN);
+	}
+	return ((int)(num * sign));
+}
+
 int	read_map(t_info *fdf, int map_fd)
 {
 	char	*oneline;
@@ -33,8 +64,9 @@ int	read_map(t_info *fdf, int map_fd)
 	int		y;
 
 	y = 0;
+	fdf->color = (int *)malloc((fdf->x_len * fdf->y_len) * sizeof(int));
 	fdf->map_int = (int **)malloc((fdf->y_len) * sizeof(int *));
-	if (fdf->map_int == NULL)
+	if (fdf->color == NULL ||fdf->map_int == NULL)
 		ft_put_originalerror("failed to allocate memory!");
 	while (y < fdf->y_len)
 	{
@@ -49,6 +81,8 @@ int	read_map(t_info *fdf, int map_fd)
 		while (x < fdf->x_len)
 		{
 			fdf->map_int[y][x] = ft_atoi(splitedline[x]);
+			if (ft_strchr(splitedline[x], ',') != NULL)
+				fdf->color[x + fdf->x_len * y] =  ft_atoi_color(splitedline[x]);
 			x++;
 		}
 		y++;
@@ -79,6 +113,7 @@ void	set_coordinates(t_info *fdf)
 			fdf->xyz[points].x = (double)x;
 			fdf->xyz[points].y = (double)y;
 			fdf->xyz[points].z = (double)fdf->map_int[y][x];
+			fdf->xyz[points].color = fdf->color[points];
 			x++;
 			points++;
 		}

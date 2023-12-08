@@ -68,7 +68,6 @@ static void	enlarge_frame(t_info *fdf)
 	{
 		fdf->xyz[point_index].x = fdf->xyz[point_index].x * enlarge_rate_x;
 		fdf->xyz[point_index].y = fdf->xyz[point_index].y * enlarge_rate_y;
-		//fdf->xyz[point_index].z = fdf->xyz[point_index].z * ENLRATE;
 		point_index++;
 	}
 }
@@ -88,7 +87,6 @@ static void	move_frame(t_info *fdf)
 	{
 		fdf->xyz[point_index].x = fdf->xyz[point_index].x + move_value_x;
 		fdf->xyz[point_index].y = fdf->xyz[point_index].y + move_value_y;
-		//fdf->xyz[point_index].z = fdf->xyz[point_index].z + INIMV;
 		point_index++;
 	}
 }

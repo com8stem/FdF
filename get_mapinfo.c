@@ -82,7 +82,11 @@ int	read_map(t_info *fdf, int map_fd)
 		{
 			fdf->map_int[y][x] = ft_atoi(splitedline[x]);
 			if (ft_strchr(splitedline[x], ',') != NULL)
-				fdf->color[x + fdf->x_len * y] =  ft_atoi_color(splitedline[x]);
+			{
+				fdf->color[x + fdf->x_len * y] = ft_atoi_color(splitedline[x]);
+			}
+			else
+				fdf->color[x + fdf->x_len * y] = -1;
 			x++;
 		}
 		y++;
@@ -113,7 +117,13 @@ void	set_coordinates(t_info *fdf)
 			fdf->xyz[points].x = (double)x;
 			fdf->xyz[points].y = (double)y;
 			fdf->xyz[points].z = (double)fdf->map_int[y][x];
-			fdf->xyz[points].color = fdf->color[points];
+			fdf->xyz[points].ini_z = fdf->map_int[y][x];
+			if (fdf->color[points] == -1 && fdf->color_flag == 1)
+				fdf->xyz[points].color = 0x660066;
+			else if (fdf->color_flag == 0)
+				fdf->xyz[points].color = (fdf->xyz[points].ini_z * 0xFF) + 0x888888;
+			else
+				fdf->xyz[points].color = fdf->color[points];
 			x++;
 			points++;
 		}

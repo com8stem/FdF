@@ -36,6 +36,7 @@ typedef struct s_coordinate
 	double	x;
 	double	y;
 	double	z;
+	int	ini_z;
 	int		color;
 }	t_coordinates;
 
@@ -46,6 +47,7 @@ typedef struct s_info
 	int				x_len;
 	int				y_len;
 	int				*color;
+	int				color_flag;
 	int				min_x;
 	int				min_y;
 	int				max_x;
@@ -55,12 +57,13 @@ typedef struct s_info
 
 typedef struct s_lineinfo
 {
-	double	start_x;
-	double	start_y;
-	double	end_x;
-	double	end_y;
+	int	start_x;
+	int	start_y;
+	int	end_x;
+	int	end_y;
 	int		start_color;
 	int		end_color;
+	int dz;
 }	t_lineinfo;
 
 typedef struct s_data

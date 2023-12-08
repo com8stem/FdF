@@ -58,6 +58,7 @@ static int	check_peroneline(t_info *fdf, int map_fd)
 	int		y_len;
 
 	y_len = 0;
+	fdf->color_flag = 0;
 	while (1)
 	{
 		oneline = get_next_line(map_fd);
@@ -69,6 +70,8 @@ static int	check_peroneline(t_info *fdf, int map_fd)
 			x_len = tmp_x_len;
 		if (y_len != 0 && tmp_x_len != x_len)
 			ft_put_originalerror("map is invalid!");
+		if (ft_strchr(oneline, ',') != NULL)
+			fdf->color_flag = 1;
 		x_len = tmp_x_len;
 		y_len++;
 		ft_free_oneline_and_splitedline(oneline, splitedline);

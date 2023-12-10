@@ -34,18 +34,18 @@ int	count_x_len(char **oneline_map)
 	return (x_len);
 }
 
-void	ft_free_oneline_and_splitedline(char *oneline, char **ptr)
+void	ft_free_oneline_and_splitedline(char *oneline, char **splitedline)
 {
 	int	i;
 
 	i = 0;
 	free (oneline);
-	while (ptr[i] != NULL)
+	while (splitedline[i] != NULL)
 	{
-		free(ptr[i]);
+		free(splitedline[i]);
 		i++;
 	}
-	free (ptr);
+	free (splitedline);
 }
 
 

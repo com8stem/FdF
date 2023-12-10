@@ -14,7 +14,7 @@
 
 int	check_argc(int argc)
 {
-	if (argc < 2)
-		ft_put_originalerror("too few argments!");
+	if (argc != 2)
+		ft_put_originalerror("argc error!");
 	return (NO_ERROR);
 }

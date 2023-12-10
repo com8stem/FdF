@@ -41,12 +41,14 @@ int	ft_atoi_color(const char *str)
 	// 		sign = sign * (-1);
 	// 	str++;
 	// }
-	while ((*str >= '0' && *str <= '9') || (*str >= 'A' && *str <= 'F')) 
+	while ((*str >= '0' && *str <= '9') || (*str >= 'A' && *str <= 'F') || (*str >= 'a' && *str <= 'f')) 
 	{
 		if (*str >= '0' && *str <= '9')
 			num = (16 * num) + (*str - '0');
 		else if (*str >= 'A' && *str <= 'F')
 			num = (16 * num) + (*str - 'A');
+		else if (*str >= 'a' && *str <= 'f')
+			num = (16 * num) + (*str - 'a');
 		str++;
 		// if (check_over(str, num, sign) == 1)
 		// 	return ((int)LONG_MAX);
@@ -82,11 +84,9 @@ int	read_map(t_info *fdf, int map_fd)
 		{
 			fdf->map_int[y][x] = ft_atoi(splitedline[x]);
 			if (ft_strchr(splitedline[x], ',') != NULL)
-			{
 				fdf->color[x + fdf->x_len * y] = ft_atoi_color(splitedline[x]);
-			}
 			else
-				fdf->color[x + fdf->x_len * y] = -1;
+				fdf->color[x + fdf->x_len * y] = 0xFFFFFF;
 			x++;
 		}
 		y++;
@@ -94,6 +94,19 @@ int	read_map(t_info *fdf, int map_fd)
 		ft_free_splited(splitedline);
 	}
 	return (NO_ERROR);
+}
+
+void	free_mapint(t_info *fdf, int **map_int)
+{
+	int i;
+
+	i = 0;
+	while (i < fdf->y_len)
+	{
+		free(map_int[i]);
+		i++;
+	}
+	free(map_int);
 }
 
 void	set_coordinates(t_info *fdf)
@@ -117,18 +130,14 @@ void	set_coordinates(t_info *fdf)
 			fdf->xyz[points].x = (double)x;
 			fdf->xyz[points].y = (double)y;
 			fdf->xyz[points].z = (double)fdf->map_int[y][x];
-			fdf->xyz[points].ini_z = fdf->map_int[y][x];
-			if (fdf->color[points] == -1 && fdf->color_flag == 1)
-				fdf->xyz[points].color = 0x660066;
-			else if (fdf->color_flag == 0)
-				fdf->xyz[points].color = (fdf->xyz[points].ini_z * 0xFF) + 0x888888;
-			else
-				fdf->xyz[points].color = fdf->color[points];
+			fdf->xyz[points].ini_z = (double)fdf->map_int[y][x];
+			fdf->xyz[points].color = (double)fdf->color[points];
 			x++;
 			points++;
 		}
 		y++;
 	}
+	free_mapint(fdf, fdf->map_int);
 	fdf->points = points;
 }
 

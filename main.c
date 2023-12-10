@@ -39,8 +39,8 @@ int	main(int argc, char **argv)
 	get_mapinfo(&fdf, argv[1]);
 	convert_coordinates(&fdf);
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, WIDTH, HAIGHT, "FdF");
-	img.img = mlx_new_image(vars.mlx, WIDTH, HAIGHT);
+	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "FdF");
+	img.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	//create_window(mlx, mlxwin, img);
 	draw_wireframe(&fdf, &img);

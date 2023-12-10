@@ -19,14 +19,14 @@ static void	rotate_z_axis(t_info *fdf)
 	double	tmp_y;
 	double	angle;
 
-	angle = M_PI_4;
+	angle = -(M_PI_4);
 	point_index = 0;
 	while (point_index < fdf->points)
 	{
 		tmp_x = fdf->xyz[point_index].x;
 		tmp_y = fdf->xyz[point_index].y;
 		fdf->xyz[point_index].x = tmp_x * cos (angle) - tmp_y * sin (angle);
-		fdf->xyz[point_index].x = tmp_x * sin (angle) + tmp_y * cos (angle);
+		fdf->xyz[point_index].y = tmp_x * sin (angle) + tmp_y * cos (angle);
 		point_index++;
 	}
 }
@@ -45,29 +45,31 @@ static void	rotate_x_axis(t_info *fdf)
 		tmp_y = fdf->xyz[point_index].y;
 		tmp_z = fdf->xyz[point_index].z;
 		fdf->xyz[point_index].y = tmp_y * cos(angle) - tmp_z * sin(angle);
-		fdf->xyz[point_index].z = tmp_y * sin(angle) - tmp_z * cos(angle);
+		fdf->xyz[point_index].z = tmp_y * sin(angle) + tmp_z * cos(angle);
 		point_index++;
 	}
 }
-
-#define INIMV 300
-#define ENLRATE 20
 
 static void	enlarge_frame(t_info *fdf)
 {
 	int		point_index;
 	double	enlarge_rate_x;
 	double	enlarge_rate_y;
+	double	rate;
 
 	get_min_coordinates(fdf);
 	get_max_coordinates(fdf);
 	point_index = 0;
-	enlarge_rate_x = (WIDTH / (fdf->max_x - fdf->min_x)) * 0.9;
-	enlarge_rate_y = (HAIGHT / (fdf->max_y - fdf->min_y)) * 0.9;
+	enlarge_rate_x = (WIDTH / (fdf->max_x - fdf->min_x)) * 0.90;
+	enlarge_rate_y = (HEIGHT / (fdf->max_y - fdf->min_y)) * 0.90;
+	if (enlarge_rate_x < enlarge_rate_y)
+		rate = enlarge_rate_x;
+	else
+		rate = enlarge_rate_y;
 	while (point_index < fdf->points)
 	{
-		fdf->xyz[point_index].x = fdf->xyz[point_index].x * enlarge_rate_x;
-		fdf->xyz[point_index].y = fdf->xyz[point_index].y * enlarge_rate_y;
+		fdf->xyz[point_index].x = fdf->xyz[point_index].x * rate;
+		fdf->xyz[point_index].y = fdf->xyz[point_index].y * rate;
 		point_index++;
 	}
 }
@@ -81,7 +83,7 @@ static void	move_frame(t_info *fdf)
 	get_min_coordinates(fdf);
 	get_max_coordinates(fdf);
 	move_value_x = (WIDTH / 2) - ((fdf->max_x + fdf->min_x) / 2);
-	move_value_y = (HAIGHT / 2) - ((fdf->max_y + fdf->min_y) / 2);
+	move_value_y = (HEIGHT / 2) - ((fdf->max_y + fdf->min_y) / 2);
 	point_index = 0;
 	while (point_index < fdf->points)
 	{

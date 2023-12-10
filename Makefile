@@ -4,8 +4,8 @@ SRCS = check_argc.c check_filename.c check_map.c convert_coordinates.c convert_c
 OBJS = $(SRCS:.c=.o)
 HEADER = fdf.h
 INCDIR = .
-CC = clang
-CFLAGS = -Wall -Wextra -Werror
+CC = cc
+#CFLAGS = -Wall -Wextra -Werror
 LINUX_MLXFLAGS = -lmlx_Linux -lXext -lX11 -lm #for Linux
 MLXFLAGS = -Imlx -lmlx -framework OpenGL -framework AppKit -lm
 LIBDIR = ./libft

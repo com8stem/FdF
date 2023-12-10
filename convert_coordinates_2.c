@@ -67,3 +67,31 @@ void	get_max_coordinates(t_info *fdf)
 	fdf->max_x = max_x;
 	fdf->max_y = max_y;
 }
+
+
+void	get_max_min_z_coordinates(t_info *fdf)
+{
+	int		point_index;
+	double	tmp_z;
+	double	max_z;
+	double	min_z;
+
+
+	point_index = 0;
+	while (point_index < fdf->points)
+	{
+		tmp_z = fdf->xyz[point_index].z;
+		if (point_index != 0 && tmp_z > max_z)
+			max_z = tmp_z;
+		if (point_index != 0 && tmp_z < min_z)
+			min_z = tmp_z;
+		if (point_index == 0)
+		{
+			max_z = tmp_z;
+			min_z = tmp_z;
+		}
+		point_index++;
+	}
+	fdf->max_z = max_z;
+	fdf->min_z = min_z;
+}

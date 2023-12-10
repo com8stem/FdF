@@ -29,14 +29,14 @@
 # define BUFFER_SIZE 10000
 
 # define WIDTH 1000
-# define HAIGHT 1000
+# define HEIGHT 1000
 
 typedef struct s_coordinate
 {
 	double	x;
 	double	y;
 	double	z;
-	int	ini_z;
+	double	ini_z;
 	int		color;
 }	t_coordinates;
 
@@ -50,8 +50,10 @@ typedef struct s_info
 	int				color_flag;
 	int				min_x;
 	int				min_y;
+	int				min_z;
 	int				max_x;
 	int				max_y;
+	int				max_z;
 	int				points;
 }	t_info;
 
@@ -59,11 +61,12 @@ typedef struct s_lineinfo
 {
 	int	start_x;
 	int	start_y;
+	int start_z;
 	int	end_x;
 	int	end_y;
-	int		start_color;
-	int		end_color;
-	int dz;
+	int end_z;
+	int	start_color;
+	int	end_color;
 }	t_lineinfo;
 
 typedef struct s_data
@@ -90,6 +93,7 @@ int		convert_coordinates(t_info *fdf);
 void	get_min_coordinates(t_info *fdf);
 void	get_max_coordinates(t_info *fdf);
 
+void	get_max_min_z_coordinates(t_info *fdf);
 
 int		create_window(void *mlx, void *mlxwin);
 int		draw_wireframe(t_info *fdf, t_data *img);

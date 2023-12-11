@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:57 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/07 23:09:19 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/11 18:59:30 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void drawline(t_lineinfo line, t_data *img)
+void	drawline(t_lineinfo line, t_data *img)
 {
     int dx = abs(line.end_x - line.start_x);
     int dy = abs(line.end_y - line.start_y);
@@ -76,11 +76,7 @@ void drawline(t_lineinfo line, t_data *img)
         r += color_step_r;
         g += color_step_g;
         b += color_step_b;
-		// if (color_step_b != 0 || color_step_g != 0 || color_step_r != 0)
-		// {
-		// 	printf("color[%d][%d][%d]\n", color_step_r, color_step_g, color_step_r);
-		// 	fflush(stdout);
-		// }
+
         current_color = (r << 16) | (g << 8) | b;
     }
 }
@@ -90,10 +86,8 @@ void drawline(t_lineinfo line, t_data *img)
 int	draw_wireframe(t_info *fdf, t_data *img)
 {
 	t_lineinfo	tmp;
-	// int	tmp_x;
-	// int	tmp_y;
-	int	index;
-	int dz;
+	int			index;
+	int			dz;
 
 	get_max_min_z_coordinates(fdf);
 	dz = fdf->max_z - fdf->min_z + 2;
@@ -103,46 +97,37 @@ int	draw_wireframe(t_info *fdf, t_data *img)
 	{
 		tmp.start_x = fdf->xyz[index].x;
 		tmp.start_y = fdf->xyz[index].y;
-		tmp.start_color = 0x400040 +  ((fdf->xyz[index].ini_z * (0x80 / dz)));
+		tmp.start_color = 0xFFFFFF;
 		if ((index + 1) % fdf->x_len != 0)
 		{
 			tmp.end_x = fdf->xyz[index + 1].x;
 			tmp.end_y = fdf->xyz[index + 1].y;
-			tmp.end_color = 0x400040 + ((fdf->xyz[index + 1].ini_z * (0x80 / dz)));
-			if (fdf->color_flag == 1)				
+			tmp.end_color = 0xFFFFFF;
+			if (fdf->color_flag == 1)
 			{
 				tmp.start_color = fdf->xyz[index].color;
 				tmp.end_color = fdf->xyz[index + 1].color;
-				// if (tmp.start_color == -1)
-				// 	tmp.start_color = 0xFFFFFF;
-				// if (tmp.end_color == -1)
-				// 	tmp.end_color = 0xFFFFFF;
 			}
 			tmp.start_z = fdf->xyz[index].ini_z;
 			tmp.end_z = fdf->xyz[index + 1].ini_z;
 			drawline(tmp, img);
 		}
-		tmp.start_color = 0x400040 + (fdf->xyz[index].ini_z * (0x80 / dz));
+		tmp.start_color = 0xFFFFFF;
 		if (index / fdf->x_len != (fdf->y_len - 1))
 		{
 			tmp.end_x = fdf->xyz[index + fdf->x_len].x;
 			tmp.end_y = fdf->xyz[index + fdf->x_len].y;
-			tmp.end_color = 0x400040 + (fdf->xyz[index + fdf->x_len].ini_z * (0x80 / dz));
-			if (fdf->color_flag == 1)				
+			tmp.end_color = 0xFFFFFF;
+			if (fdf->color_flag == 1)
 			{
 				tmp.start_color = fdf->xyz[index].color;
 				tmp.end_color = fdf->xyz[index + fdf->x_len].color;
-				// if (tmp.start_color == -1)
-				// 	tmp.start_color = 0xFFFFFF;
-				// if (tmp.end_color == -1)
-				// 	tmp.end_color = 0xFFFFFF;
 			}
 			tmp.start_z = fdf->xyz[index].ini_z;
 			tmp.end_z = fdf->xyz[index + fdf->x_len].ini_z;
 			drawline(tmp, img);	
 		}
 		index++;
-		// printf("[%d][%d]\n", index, fdf->points);
 	}
 	return (NO_ERROR);
 }

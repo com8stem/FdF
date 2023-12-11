@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 20:01:21 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/07 22:54:08 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/11 19:09:04 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,8 @@ void	get_max_min_z_coordinates(t_info *fdf);
 
 int		create_window(void *mlx, void *mlxwin);
 int		draw_wireframe(t_info *fdf, t_data *img);
+
+void	ft_free_splited(char **splittedline, char *oneline);
+
 
 #endif

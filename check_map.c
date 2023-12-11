@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:30 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/05 22:23:51 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/11 19:08:39 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	check_peroneline(t_info *fdf, int map_fd)
 			fdf->color_flag = 1;
 		x_len = tmp_x_len;
 		y_len++;
-		ft_free_oneline_and_splitedline(oneline, splitedline);
+		ft_free_splited(splitedline, oneline);
 	}
 	fdf->x_len = x_len;
 	fdf->y_len = y_len;

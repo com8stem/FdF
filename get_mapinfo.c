@@ -6,42 +6,28 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:59 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/07 23:06:36 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/11 19:10:31 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_free_splited(char **ptr)
-{
-	int	i;
-
-	i = 0;
-	while (ptr[i] != NULL)
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free (ptr);
-}
-
 int	ft_atoi_color(const char *str)
 {
 	long	num;
-	long	sign;
 
 	num = 0;
-	sign = 1;
 	while (*str != 'x')
 		str++;
 	str++;
-	// if (*str == '-' || *str == '+')
-	// {
-	// 	if (*str == '-')
-	// 		sign = sign * (-1);
-	// 	str++;
-	// }
-	while ((*str >= '0' && *str <= '9') || (*str >= 'A' && *str <= 'F') || (*str >= 'a' && *str <= 'f')) 
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			ft_put_originalerror("map is invalid!");
+		str++;
+	}
+	while ((*str >= '0' && *str <= '9') || (*str >= 'A' && *str <= 'F')
+		|| (*str >= 'a' && *str <= 'f'))
 	{
 		if (*str >= '0' && *str <= '9')
 			num = (16 * num) + (*str - '0');
@@ -50,12 +36,8 @@ int	ft_atoi_color(const char *str)
 		else if (*str >= 'a' && *str <= 'f')
 			num = (16 * num) + (*str - 'a');
 		str++;
-		// if (check_over(str, num, sign) == 1)
-		// 	return ((int)LONG_MAX);
-		// if (check_over(str, num, sign) == -1)
-		// 	return ((int)LONG_MIN);
 	}
-	return ((int)(num * sign));
+	return ((int)num);
 }
 
 int	read_map(t_info *fdf, int map_fd)
@@ -68,18 +50,18 @@ int	read_map(t_info *fdf, int map_fd)
 	y = 0;
 	fdf->color = (int *)malloc((fdf->x_len * fdf->y_len) * sizeof(int));
 	fdf->map_int = (int **)malloc((fdf->y_len) * sizeof(int *));
-	if (fdf->color == NULL ||fdf->map_int == NULL)
-		ft_put_originalerror("failed to allocate memory!");
+	if (fdf->color == NULL || fdf->map_int == NULL)
+		ft_put_originalerror("malloc");
 	while (y < fdf->y_len)
 	{
-		oneline = get_next_line_copy(map_fd);//___2
+		oneline = get_next_line_copy(map_fd);//
 		splitedline = ft_split(oneline, ' ');
 		if (splitedline == NULL)
 			ft_put_originalerror("failed to read the map!");
 		x = 0;
 		fdf->map_int[y] = (int *)malloc((fdf->x_len) * sizeof(int));
 		if (fdf->map_int[y] == NULL)
-			ft_put_originalerror("failed to allocate memory!");
+			ft_put_originalerror("malloc");
 		while (x < fdf->x_len)
 		{
 			fdf->map_int[y][x] = ft_atoi(splitedline[x]);
@@ -90,15 +72,14 @@ int	read_map(t_info *fdf, int map_fd)
 			x++;
 		}
 		y++;
-		free(oneline);
-		ft_free_splited(splitedline);
+		ft_free_splited(splitedline, oneline);
 	}
 	return (NO_ERROR);
 }
 
 void	free_mapint(t_info *fdf, int **map_int)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < fdf->y_len)
@@ -117,7 +98,8 @@ void	set_coordinates(t_info *fdf)
 
 	points = 0;
 	y = 0;
-	fdf->xyz = (t_coordinates *)malloc(((fdf->x_len) * (fdf->y_len)) * sizeof(t_coordinates));
+	fdf->xyz = (t_coordinates *)malloc(((fdf->x_len) * (fdf->y_len))
+			* sizeof(t_coordinates));
 	if (fdf->xyz == NULL)
 		ft_put_originalerror("failed to allocate!");
 	while (y < fdf->y_len)
@@ -125,8 +107,6 @@ void	set_coordinates(t_info *fdf)
 		x = 0;
 		while (x < fdf->x_len)
 		{
-			// fdf->xyz[points].initial_x = x;
-			// fdf->xyz[points].initial_y = y;
 			fdf->xyz[points].x = (double)x;
 			fdf->xyz[points].y = (double)y;
 			fdf->xyz[points].z = (double)fdf->map_int[y][x];

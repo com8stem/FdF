@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_argc.c                                       :+:      :+:    :+:   */
+/*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 20:01:45 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/11 19:00:39 by kishizu          ###   ########.fr       */
+/*   Created: 2023/12/11 19:05:26 by kishizu           #+#    #+#             */
+/*   Updated: 2023/12/11 19:08:23 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	check_argc(int argc)
+void	ft_free_splited(char **splittedline, char *oneline)
 {
-	if (argc != 2)
-		ft_put_originalerror("Usage : ./fdf <filename> [ case_size z_size ]");
-	return (NO_ERROR);
+	int	i;
+
+	free (oneline);
+	i = 0;
+	while (splittedline[i] != NULL)
+	{
+		free(splittedline[i]);
+		i++;
+	}
+	free (splittedline);
 }

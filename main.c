@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:00:07 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/06 19:51:13 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/11 22:08:51 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,27 @@ typedef struct	s_vars {
 	void	*win;
 }				t_vars;
 
-int	my_close(int keycode, t_vars *vars)
+int	my_close_win(int keycode, t_vars *vars)
 {
 	(void)keycode;
-	mlx_destroy_window(vars->mlx, vars->win);
+	(void)vars;
 	return (0);
 }
 
+int	key_hook(int keycode, t_vars *vars)
+{
+	if (keycode == 53)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit(EXIT_SUCCESS);
+	}
+	return (0);
+}
 
 int	main(int argc, char **argv)
 {
 	t_info	fdf;
 	t_vars	vars;
-	// void	*mlx;
-	// void	*mlx_win;
 	t_data	img;
 
 	check_argc(argc);
@@ -45,7 +52,8 @@ int	main(int argc, char **argv)
 	//create_window(mlx, mlxwin, img);
 	draw_wireframe(&fdf, &img);
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	mlx_hook(vars.win, 2, 1L<<0, my_close, &vars);
+	mlx_key_hook(vars.win, key_hook, &vars);
+	// mlx_hook(vars.win, 33, 1L << 17, my_close_win, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }

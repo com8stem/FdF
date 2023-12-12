@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:57 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/11 18:59:30 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 13:54:25 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	if (!(x >= WIDTH || y >= HEIGHT) || (x < 0 || y < 0))
+	{
+		dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+		*(unsigned int *)dst = color;
+	}
 }
 
 void	drawline(t_lineinfo line, t_data *img)
@@ -51,9 +54,9 @@ void	drawline(t_lineinfo line, t_data *img)
 	i = 0;
     while(i++ < steps)
     {
-        if (!(line.start_x >= WIDTH || line.start_y >= HEIGHT) ||(line.start_x == line.end_x && line.start_y == line.end_y) || (line.start_x < 0 || line.start_y < 0))
-	        my_mlx_pixel_put(img, line.start_x, line.start_y, current_color);
-        
+        // if (!(line.start_x >= WIDTH || line.start_y >= HEIGHT) ||(line.start_x == line.end_x && line.start_y == line.end_y) || (line.start_x < 0 || line.start_y < 0))
+		my_mlx_pixel_put(img, line.start_x, line.start_y, current_color);
+
 		int e2 = 2 * error;
 
         if (e2 > -dy)
@@ -77,8 +80,8 @@ void	drawline(t_lineinfo line, t_data *img)
         g += color_step_g;
         b += color_step_b;
 
-        current_color = (r << 16) | (g << 8) | b;
-    }
+		current_color = (r << 16) | (g << 8) | b;
+	}
 }
 
 
@@ -125,7 +128,7 @@ int	draw_wireframe(t_info *fdf, t_data *img)
 			}
 			tmp.start_z = fdf->xyz[index].ini_z;
 			tmp.end_z = fdf->xyz[index + fdf->x_len].ini_z;
-			drawline(tmp, img);	
+			drawline(tmp, img);
 		}
 		index++;
 	}

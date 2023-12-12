@@ -4,11 +4,11 @@ SRCS = check_argc.c\
 		check_map.c\
 		convert_coordinates.c\
 		convert_coordinates_utils.c\
-		create_window.c\
 		draw_wireframe.c\
 		get_mapinfo.c\
 		get_next_line.c\
-		main.c put_error.c\
+		main.c\
+		put_error.c\
 		get_next_line_copy.c\
 		fdf_utils.c
 OBJS = $(SRCS:.c=.o)

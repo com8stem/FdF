@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 20:01:21 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/11 19:09:04 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 14:47:25 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 
 # define WIDTH 1000
 # define HEIGHT 1000
+
+# define KEY_ESC 53
 
 typedef struct s_coordinate
 {
@@ -61,10 +63,10 @@ typedef struct s_lineinfo
 {
 	int	start_x;
 	int	start_y;
-	int start_z;
+	int	start_z;
 	int	end_x;
 	int	end_y;
-	int end_z;
+	int	end_z;
 	int	start_color;
 	int	end_color;
 }	t_lineinfo;
@@ -95,7 +97,6 @@ void	get_max_coordinates(t_info *fdf);
 
 void	get_max_min_z_coordinates(t_info *fdf);
 
-int		create_window(void *mlx, void *mlxwin);
 int		draw_wireframe(t_info *fdf, t_data *img);
 
 void	ft_free_splited(char **splittedline, char *oneline);

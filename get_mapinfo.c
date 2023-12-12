@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:59 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/11 19:10:31 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 16:08:46 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	ft_atoi_color(const char *str)
 		if (*str >= '0' && *str <= '9')
 			num = (16 * num) + (*str - '0');
 		else if (*str >= 'A' && *str <= 'F')
-			num = (16 * num) + (*str - 'A');
+			num = (16 * num) + (*str - 'A' + 10);
 		else if (*str >= 'a' && *str <= 'f')
-			num = (16 * num) + (*str - 'a');
+			num = (16 * num) + (*str - 'a' + 10);
 		str++;
 	}
 	return ((int)num);
@@ -68,7 +68,7 @@ int	read_map(t_info *fdf, int map_fd)
 			if (ft_strchr(splitedline[x], ',') != NULL)
 				fdf->color[x + fdf->x_len * y] = ft_atoi_color(splitedline[x]);
 			else
-				fdf->color[x + fdf->x_len * y] = 0xFFFFFF;
+				fdf->color[x + fdf->x_len * y] = 0x888888;
 			x++;
 		}
 		y++;

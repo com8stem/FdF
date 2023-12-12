@@ -6,30 +6,31 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:57 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 13:54:25 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 16:07:37 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+static void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
 	if (!(x >= WIDTH || y >= HEIGHT) || (x < 0 || y < 0))
 	{
-		dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+		dst = data->addr + (y * data->line_length + x
+				* (data->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
 }
 
-void	drawline(t_lineinfo line, t_data *img)
+static void	drawline(t_lineinfo line, t_data *img)
 {
-    int dx = abs(line.end_x - line.start_x);
-    int dy = abs(line.end_y - line.start_y);
-    int sx = (line.start_x < line.end_x) ? 1 : -1;
-    int sy = (line.start_y < line.end_y) ? 1 : -1;
-	int tmp;
+	int dx = abs(line.end_x - line.start_x);
+	int dy = abs(line.end_y - line.start_y);
+	int	sx = (line.start_x < line.end_x) ? 1 : -1;
+	int	sy = (line.start_y < line.end_y) ? 1 : -1;
+	int	tmp;
 
     int error = dx - dy;
     int steps = (dx > dy) ? dx : dy; // Determine the number of steps based on the longer axis
@@ -84,52 +85,37 @@ void	drawline(t_lineinfo line, t_data *img)
 	}
 }
 
+static void	set_draw(t_info *fdf, int start_index, int end_index, t_data *img)
+{
+	t_lineinfo	tmp;
 
+	tmp.start_x = fdf->xyz[start_index].x;
+	tmp.start_y = fdf->xyz[start_index].y;
+	tmp.start_color = 0xFFFFFF;
+	tmp.end_x = fdf->xyz[end_index].x;
+	tmp.end_y = fdf->xyz[end_index].y;
+	tmp.end_color = 0xFFFFFF;
+	if (fdf->color_flag == 1)
+	{
+		tmp.start_color = fdf->xyz[start_index].color;
+		tmp.end_color = fdf->xyz[end_index].color;
+	}
+	tmp.start_z = fdf->xyz[start_index].ini_z;
+	tmp.end_z = fdf->xyz[end_index].ini_z;
+	drawline(tmp, img);
+}
 
 int	draw_wireframe(t_info *fdf, t_data *img)
 {
-	t_lineinfo	tmp;
 	int			index;
-	int			dz;
-
-	get_max_min_z_coordinates(fdf);
-	dz = fdf->max_z - fdf->min_z + 2;
 
 	index = 0;
 	while (index < fdf->points)
 	{
-		tmp.start_x = fdf->xyz[index].x;
-		tmp.start_y = fdf->xyz[index].y;
-		tmp.start_color = 0xFFFFFF;
 		if ((index + 1) % fdf->x_len != 0)
-		{
-			tmp.end_x = fdf->xyz[index + 1].x;
-			tmp.end_y = fdf->xyz[index + 1].y;
-			tmp.end_color = 0xFFFFFF;
-			if (fdf->color_flag == 1)
-			{
-				tmp.start_color = fdf->xyz[index].color;
-				tmp.end_color = fdf->xyz[index + 1].color;
-			}
-			tmp.start_z = fdf->xyz[index].ini_z;
-			tmp.end_z = fdf->xyz[index + 1].ini_z;
-			drawline(tmp, img);
-		}
-		tmp.start_color = 0xFFFFFF;
+			set_draw(fdf, index, index + 1, img);
 		if (index / fdf->x_len != (fdf->y_len - 1))
-		{
-			tmp.end_x = fdf->xyz[index + fdf->x_len].x;
-			tmp.end_y = fdf->xyz[index + fdf->x_len].y;
-			tmp.end_color = 0xFFFFFF;
-			if (fdf->color_flag == 1)
-			{
-				tmp.start_color = fdf->xyz[index].color;
-				tmp.end_color = fdf->xyz[index + fdf->x_len].color;
-			}
-			tmp.start_z = fdf->xyz[index].ini_z;
-			tmp.end_z = fdf->xyz[index + fdf->x_len].ini_z;
-			drawline(tmp, img);
-		}
+			set_draw(fdf, index, index + fdf->x_len, img);
 		index++;
 	}
 	return (NO_ERROR);

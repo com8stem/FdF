@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:30 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/11 19:08:39 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 16:00:41 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int	count_x_len(char **oneline_map)
 		i = 0;
 		while (i < numstr_len)
 		{
-			if (ft_isdigit(oneline_map[x_len][i]) == 0 && (i == 0 && oneline_map[x_len][i] != '-'))
-				ft_put_originalerror("map is invalid!"); 
+			if (ft_isdigit(oneline_map[x_len][i]) == 0 &&
+				(i == 0 && oneline_map[x_len][i] != '-'))
+				ft_put_originalerror("map is invalid!");
 			i++;
 		}
 		x_len++;

@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:29 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/07 21:20:36 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 14:59:47 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static void	enlarge_frame(t_info *fdf)
 	get_min_coordinates(fdf);
 	get_max_coordinates(fdf);
 	point_index = 0;
-	enlarge_rate_x = (WIDTH / (fdf->max_x - fdf->min_x)) * 0.90;
-	enlarge_rate_y = (HEIGHT / (fdf->max_y - fdf->min_y)) * 0.90;
+	enlarge_rate_x = (WIDTH / (fdf->max_x - fdf->min_x)) * 0.9;
+	enlarge_rate_y = (HEIGHT / (fdf->max_y - fdf->min_y)) * 0.9;
 	if (enlarge_rate_x < enlarge_rate_y)
 		rate = enlarge_rate_x;
 	else

@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 20:01:21 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 14:47:25 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 20:43:03 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,29 @@ typedef struct s_data
 	int		endian;
 }	t_data;
 
+typedef struct s_colordata
+{
+	int	color_step_r;
+	int	color_step_g;
+	int	color_step_b;
+	int	r;
+	int	g;
+	int	b;
+}	t_colordata;
+
+typedef struct s_bresendata
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	error;
+	int	steps;
+	int	e2;
+}	t_bresendata;
+
 char	*get_next_line(int fd);
-char	*get_next_line_copy(int fd);
+char	*get_next_line_second(int fd);
 
 void	ft_put_originalerror(char *error);
 void	ft_put_systemerror(char *error);
@@ -98,8 +119,10 @@ void	get_max_coordinates(t_info *fdf);
 void	get_max_min_z_coordinates(t_info *fdf);
 
 int		draw_wireframe(t_info *fdf, t_data *img);
+void	drawline(t_lineinfo line, t_data *img);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void	ft_free_splited(char **splittedline, char *oneline);
-
+void	free_mapint(t_info *fdf, int **map_int);
 
 #endif

@@ -6,13 +6,25 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:59 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 16:08:46 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 17:41:46 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_atoi_color(const char *str)
+void	set_coordinates(t_info *fdf);
+
+static void	prepare_fdf(t_info *fdf)
+{
+	fdf->color = (int *)malloc((fdf->x_len * fdf->y_len) * sizeof(int));
+	if (fdf->color == NULL)
+		ft_put_originalerror("malloc");
+	fdf->map_int = (int **)malloc((fdf->y_len) * sizeof(int *));
+	if (fdf->map_int == NULL)
+		ft_put_originalerror("malloc");
+}
+
+static int	ft_atoi_color(const char *str)
 {
 	long	num;
 
@@ -40,7 +52,16 @@ int	ft_atoi_color(const char *str)
 	return ((int)num);
 }
 
-int	read_map(t_info *fdf, int map_fd)
+static void	set_mapinfo_tmp(t_info *fdf, char **splitedline, int x, int y)
+{
+	fdf->map_int[y][x] = ft_atoi(splitedline[x]);
+	if (ft_strchr(splitedline[x], ',') != NULL)
+		fdf->color[x + fdf->x_len * y] = ft_atoi_color(splitedline[x]);
+	else
+		fdf->color[x + fdf->x_len * y] = 0x888888;
+}
+
+static void	read_map(t_info *fdf, int map_fd)
 {
 	char	*oneline;
 	char	**splitedline;
@@ -48,77 +69,25 @@ int	read_map(t_info *fdf, int map_fd)
 	int		y;
 
 	y = 0;
-	fdf->color = (int *)malloc((fdf->x_len * fdf->y_len) * sizeof(int));
-	fdf->map_int = (int **)malloc((fdf->y_len) * sizeof(int *));
-	if (fdf->color == NULL || fdf->map_int == NULL)
-		ft_put_originalerror("malloc");
+	prepare_fdf(fdf);
 	while (y < fdf->y_len)
 	{
-		oneline = get_next_line_copy(map_fd);//
+		oneline = get_next_line_second(map_fd);
 		splitedline = ft_split(oneline, ' ');
 		if (splitedline == NULL)
 			ft_put_originalerror("failed to read the map!");
-		x = 0;
 		fdf->map_int[y] = (int *)malloc((fdf->x_len) * sizeof(int));
 		if (fdf->map_int[y] == NULL)
 			ft_put_originalerror("malloc");
+		x = 0;
 		while (x < fdf->x_len)
 		{
-			fdf->map_int[y][x] = ft_atoi(splitedline[x]);
-			if (ft_strchr(splitedline[x], ',') != NULL)
-				fdf->color[x + fdf->x_len * y] = ft_atoi_color(splitedline[x]);
-			else
-				fdf->color[x + fdf->x_len * y] = 0x888888;
+			set_mapinfo_tmp(fdf, splitedline, x, y);
 			x++;
 		}
 		y++;
 		ft_free_splited(splitedline, oneline);
 	}
-	return (NO_ERROR);
-}
-
-void	free_mapint(t_info *fdf, int **map_int)
-{
-	int	i;
-
-	i = 0;
-	while (i < fdf->y_len)
-	{
-		free(map_int[i]);
-		i++;
-	}
-	free(map_int);
-}
-
-void	set_coordinates(t_info *fdf)
-{
-	int	x;
-	int	y;
-	int	points;
-
-	points = 0;
-	y = 0;
-	fdf->xyz = (t_coordinates *)malloc(((fdf->x_len) * (fdf->y_len))
-			* sizeof(t_coordinates));
-	if (fdf->xyz == NULL)
-		ft_put_originalerror("failed to allocate!");
-	while (y < fdf->y_len)
-	{
-		x = 0;
-		while (x < fdf->x_len)
-		{
-			fdf->xyz[points].x = (double)x;
-			fdf->xyz[points].y = (double)y;
-			fdf->xyz[points].z = (double)fdf->map_int[y][x];
-			fdf->xyz[points].ini_z = (double)fdf->map_int[y][x];
-			fdf->xyz[points].color = (double)fdf->color[points];
-			x++;
-			points++;
-		}
-		y++;
-	}
-	free_mapint(fdf, fdf->map_int);
-	fdf->points = points;
 }
 
 int	get_mapinfo(t_info *fdf, char *filename)

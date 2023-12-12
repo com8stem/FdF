@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:00:07 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 14:46:08 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 17:12:28 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	x_close_win(int keycode, t_vars *vars)
 	return (0);
 }
 
-int	key_hook(int keycode, t_vars *vars)
+int	key_hook_esc(int keycode, t_vars *vars)
 {
 	if (keycode == KEY_ESC)
 	{
@@ -59,7 +59,7 @@ int	main(int argc, char **argv)
 	create_window(&vars, &img);
 	draw_wireframe(&fdf, &img);
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	mlx_key_hook(vars.win, key_hook, &vars);
+	mlx_key_hook(vars.win, key_hook_esc, &vars);
 	mlx_hook(vars.win, 17, 1L << 17, x_close_win, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

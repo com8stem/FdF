@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:11 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 15:26:12 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 17:04:44 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ int	check_filename(char *filename)
 		filename++;
 	if (ft_strncmp(filename, ".fdf\0", ft_strlen(".fdf") + 1) != 0)
 		ft_put_originalerror("extension is invalid!");
-	return (0);
+	return (NO_ERROR);
 }

@@ -15,7 +15,8 @@ $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCDIR)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INCDIR)
+	@echo "| libft"
 
 clean:
 	@rm -f $(OBJS)

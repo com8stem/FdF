@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_copy.c                               :+:      :+:    :+:   */
+/*   get_next_line_second.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:05:07 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/04 22:19:33 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 17:43:19 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static char	*copy_to_note_copy(int fd, char *note)
+static char	*copy_to_note_second(int fd, char *note)
 {
 	char	*buf;
 	int		read_bytes;
@@ -41,7 +41,7 @@ static char	*copy_to_note_copy(int fd, char *note)
 	return (note);
 }
 
-char	*get_next_line_copy(int fd)
+char	*get_next_line_second(int fd)
 {
 	static char	*note;
 	char		*result;
@@ -50,7 +50,7 @@ char	*get_next_line_copy(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
 		return (NULL);
-	note = copy_to_note_copy(fd, note);
+	note = copy_to_note_second(fd, note);
 	if (note == NULL)
 		return (NULL);
 	if (ft_strchr(note, '\n') == NULL)

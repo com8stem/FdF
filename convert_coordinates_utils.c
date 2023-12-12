@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_coordinates_2.c                            :+:      :+:    :+:   */
+/*   convert_coordinates_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 21:20:19 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/07 21:20:56 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 17:08:33 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,12 @@ void	get_max_coordinates(t_info *fdf)
 	fdf->max_y = max_y;
 }
 
-
 void	get_max_min_z_coordinates(t_info *fdf)
 {
 	int		point_index;
 	double	tmp_z;
 	double	max_z;
 	double	min_z;
-
 
 	point_index = 0;
 	while (point_index < fdf->points)

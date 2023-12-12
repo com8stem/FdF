@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 19:05:26 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/11 19:08:23 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 16:17:19 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,17 @@ void	ft_free_splited(char **splittedline, char *oneline)
 		i++;
 	}
 	free (splittedline);
+}
+
+void	free_mapint(t_info *fdf, int **map_int)
+{
+	int	i;
+
+	i = 0;
+	while (i < fdf->y_len)
+	{
+		free(map_int[i]);
+		i++;
+	}
+	free(map_int);
 }

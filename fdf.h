@@ -47,6 +47,8 @@
 #  define KEY_LEFT 65361
 #  define KEY_RIGHT 65363
 #  define KEY_R 114
+#  define KEY_PLUS 59
+#  define KEY_MINUS 45
 # endif
 
 typedef struct s_coordinate
@@ -77,6 +79,8 @@ typedef struct s_info
 	int				points;
 	double			move_x;
 	double			move_y;
+	double			enlarge_rate_x;
+	double			enlarge_rate_y;
 }	t_info;
 
 typedef struct s_lineinfo
@@ -138,7 +142,9 @@ void	get_max_coordinates(t_info *fdf);
 
 void	get_max_min_z_coordinates(t_info *fdf);
 
+void	get_inimovevalue(t_info *fdf);
 void	move_frame(t_info *fdf, double move_x, double move_y);
+void	enlarge_frame(t_info *fdf, double enlarge_rate_x, double enlarge_rate_y);
 void	reset_draw(t_info *fdf);
 
 int		draw_wireframe(t_info *fdf, t_imgdata *img);

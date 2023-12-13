@@ -22,24 +22,42 @@ typedef struct s_vars {
 int	x_close_win(void)
 {
 	exit(EXIT_SUCCESS);
+	return (NO_ERROR);
+}
+
+int judge_keycode(int keycode)
+{
+	if (keycode == KEY_UP || keycode == KEY_DOWN
+	|| keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_PLUS || keycode == KEY_MINUS || keycode == KEY_R)
+	{
+		return (1);
+	}
 	return (0);
 }
 
 int	key_hook(int keycode, t_vars *vars)
 {
-	if (keycode == KEY_UP || keycode == KEY_DOWN
-		|| keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_R)
+	if (judge_keycode(keycode))
 	{
 		ft_bzero(vars->img->addr,
 			WIDTH * HEIGHT * (vars->img->bits_per_pixel / 8));
 		if (keycode == KEY_UP)
-			move_frame(vars->fdf, 0, -3);
+			move_frame(vars->fdf, 0, -4);
 		else if (keycode == KEY_DOWN)
-			move_frame(vars->fdf, 0, 3);
+			move_frame(vars->fdf, 0, 4);
 		else if (keycode == KEY_LEFT)
-			move_frame(vars->fdf, -3, 0);
+			move_frame(vars->fdf, -4, 0);
 		else if (keycode == KEY_RIGHT)
-			move_frame(vars->fdf, 3, 0);
+			move_frame(vars->fdf, 4, 0);
+		else if (keycode == KEY_PLUS || keycode == KEY_MINUS)
+		{
+			if (keycode == KEY_PLUS)
+				enlarge_frame(vars->fdf, 1.1, 1.1);
+			else if (keycode == KEY_MINUS)
+				enlarge_frame(vars->fdf, 0.9, 0.9);
+			get_inimovevalue(vars->fdf);
+			move_frame(vars->fdf, vars->fdf->move_x, vars->fdf->move_y);
+		}
 		else if (keycode == KEY_R)
 			reset_draw(vars->fdf);
 		draw_wireframe(vars->fdf, vars->img);
@@ -50,7 +68,7 @@ int	key_hook(int keycode, t_vars *vars)
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit(EXIT_SUCCESS);
 	}
-	return (0);
+	return (NO_ERROR);
 }
 
 int	create_window(t_vars *vars, t_imgdata *img)

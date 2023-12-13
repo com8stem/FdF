@@ -107,6 +107,24 @@ void	move_frame(t_info *fdf, double move_x, double move_y)
 	}
 }
 
+void	enlarge_frame(t_info *fdf, double enlarge_rate_x, double enlarge_rate_y)
+{
+	int		point_index;
+	double	rate;
+
+	point_index = 0;
+	if (enlarge_rate_x < enlarge_rate_y)
+		rate = enlarge_rate_x;
+	else
+		rate = enlarge_rate_y;
+	while (point_index < fdf->points)
+	{
+		fdf->xyz[point_index].x = fdf->xyz[point_index].x * rate;
+		fdf->xyz[point_index].y = fdf->xyz[point_index].y * rate;
+		point_index++;
+	}
+}
+
 void	reset_draw(t_info *fdf)
 {
 	int	point_index;

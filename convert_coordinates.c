@@ -50,31 +50,16 @@ static void	rotate_x_axis(t_info *fdf)
 	}
 }
 
-static void	enlarge_frame(t_info *fdf)
-{
-	int		point_index;
-	double	enlarge_rate_x;
-	double	enlarge_rate_y;
-	double	rate;
 
+static void	get_inienlargevalue(t_info *fdf)
+{
 	get_min_coordinates(fdf);
 	get_max_coordinates(fdf);
-	point_index = 0;
-	enlarge_rate_x = (WIDTH / (fdf->max_x - fdf->min_x)) * 0.9;
-	enlarge_rate_y = (HEIGHT / (fdf->max_y - fdf->min_y)) * 0.9;
-	if (enlarge_rate_x < enlarge_rate_y)
-		rate = enlarge_rate_x;
-	else
-		rate = enlarge_rate_y;
-	while (point_index < fdf->points)
-	{
-		fdf->xyz[point_index].x = fdf->xyz[point_index].x * rate;
-		fdf->xyz[point_index].y = fdf->xyz[point_index].y * rate;
-		point_index++;
-	}
+	fdf->enlarge_rate_x = (WIDTH / (fdf->max_x - fdf->min_x)) * 0.9;
+	fdf->enlarge_rate_y = (HEIGHT / (fdf->max_y - fdf->min_y)) * 0.9;
 }
 
-static void	get_inimovevalue(t_info *fdf)
+void	get_inimovevalue(t_info *fdf)
 {
 	get_min_coordinates(fdf);
 	get_max_coordinates(fdf);
@@ -86,7 +71,8 @@ int	convert_coordinates(t_info *fdf)
 {
 	rotate_z_axis(fdf);
 	rotate_x_axis(fdf);
-	enlarge_frame(fdf);
+	get_inienlargevalue(fdf);
+	enlarge_frame(fdf, fdf->enlarge_rate_x, fdf->enlarge_rate_y);
 	get_inimovevalue(fdf);
 	move_frame(fdf, fdf->move_x, fdf->move_y);
 	return (NO_ERROR);

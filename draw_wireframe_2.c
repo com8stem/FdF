@@ -80,11 +80,12 @@ void	drawline(t_lineinfo line, t_imgdata *img)
 	current_color = line.start_color;
 	get_colordata(&color, line.start_color, line.end_color, bresen.steps);
 	i = 0;
-	while (i++ < bresen.steps)
+	while (i < bresen.steps)
 	{
 		my_mlx_pixel_put(img, line.start_x, line.start_y, current_color);
 		bresen.e2 = 2 * bresen.error;
 		set_error(&bresen, &line);
 		renew_color(&color, &current_color);
+		i++;
 	}
 }

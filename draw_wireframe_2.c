@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 20:32:56 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 20:48:47 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/13 20:36:07 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static void	get_colordata(t_colordata *color,
 	int start_color, int end_color, int steps)
 {
-	color->color_step_r = (((end_color >> 16) & 0xFF)
+	color->dred = (((end_color >> 16) & 0xFF)
 			- ((start_color >> 16) & 0xFF) + 1) / (steps);
-	color->color_step_g = (((end_color >> 8) & 0xFF)
+	color->dgreen = (((end_color >> 8) & 0xFF)
 			- ((start_color >> 8) & 0xFF) + 1) / (steps);
-	color->color_step_b = ((end_color & 0xFF)
+	color->dblue = ((end_color & 0xFF)
 			- (start_color & 0xFF) + 1) / (steps);
 }
 
@@ -28,63 +28,63 @@ static void	renew_color(t_colordata *color, uint32_t *current_color)
 	color->r = (*current_color >> 16) & 0xFF;
 	color->g = (*current_color >> 8) & 0xFF;
 	color->b = *current_color & 0xFF;
-	color->r += color->color_step_r;
-	color->g += color->color_step_g;
-	color->b += color->color_step_b;
+	color->r += color->dred;
+	color->g += color->dgreen;
+	color->b += color->dblue;
 	*current_color = (color->r << 16) | (color->g << 8) | color->b;
 }
 
-static void	set_bresendata(t_bresendata *data, t_lineinfo line)
+static void	set_bresendata(t_bresendata *bresen, t_lineinfo line)
 {
-	data->dx = abs(line.end_x - line.start_x);
-	data->dy = abs(line.end_y - line.start_y);
+	bresen->dx = abs(line.end_x - line.start_x);
+	bresen->dy = abs(line.end_y - line.start_y);
 	if (line.start_x < line.end_x)
-		data->sx = 1;
+		bresen->sx = 1;
 	else
-		data->sx = -1;
+		bresen->sx = -1;
 	if (line.start_y < line.end_y)
-		data->sy = 1;
+		bresen->sy = 1;
 	else
-		data->sy = -1;
-	data->error = data->dx - data->dy;
-	if (data->dx > data->dy)
-		data->steps = data->dx;
+		bresen->sy = -1;
+	bresen->error = bresen->dx - bresen->dy;
+	if (bresen->dx > bresen->dy)
+		bresen->steps = bresen->dx;
 	else
-		data->steps = data->dy;
+		bresen->steps = bresen->dy;
 }
 
-static void	set_error(t_bresendata *data, t_lineinfo *line)
+static void	set_error(t_bresendata *bresen, t_lineinfo *line)
 {
-	if (data->e2 > -(data->dy))
+	if (bresen->e2 > -(bresen->dy))
 	{
-		data->error = data->error - (data->dy);
-		line->start_x = line->start_x + (data->sx);
+		bresen->error = bresen->error - (bresen->dy);
+		line->start_x = line->start_x + (bresen->sx);
 	}
-	if (data->e2 < (data->dx))
+	if (bresen->e2 < (bresen->dx))
 	{
-		data->error = data->error + data->dx;
-		line->start_y = line->start_y + data->sy;
+		bresen->error = bresen->error + bresen->dx;
+		line->start_y = line->start_y + bresen->sy;
 	}
 }
 
-void	drawline(t_lineinfo line, t_data *img)
+void	drawline(t_lineinfo line, t_imgdata *img)
 {
-	t_bresendata	data;
+	t_bresendata	bresen;
 	t_colordata		color;
 	uint32_t		current_color;
 	int				i;
 
-	set_bresendata(&data, line);
-	if (data.steps == 0)
+	set_bresendata(&bresen, line);
+	if (bresen.steps == 0)
 		return ;
 	current_color = line.start_color;
-	get_colordata(&color, line.start_color, line.end_color, data.steps);
+	get_colordata(&color, line.start_color, line.end_color, bresen.steps);
 	i = 0;
-	while (i++ < data.steps)
+	while (i++ < bresen.steps)
 	{
 		my_mlx_pixel_put(img, line.start_x, line.start_y, current_color);
-		data.e2 = 2 * data.error;
-		set_error(&data, &line);
+		bresen.e2 = 2 * bresen.error;
+		set_error(&bresen, &line);
 		renew_color(&color, &current_color);
 	}
 }

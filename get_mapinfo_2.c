@@ -6,18 +6,20 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:31:50 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 16:32:57 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/13 21:50:10 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	set_xyz_color(t_info *fdf, int points, int x, int y)
+static void	set_xyzandcolor(t_info *fdf, int points, int x, int y)
 {
 	fdf->xyz[points].x = (double)x;
 	fdf->xyz[points].y = (double)y;
-	fdf->xyz[points].z = (double)fdf->map_int[y][x];
-	fdf->xyz[points].ini_z = (double)fdf->map_int[y][x];
+	fdf->xyz[points].z = (double)fdf->map_tmp[y][x];
+	fdf->xyz[points].ini_x = (double)x;
+	fdf->xyz[points].ini_y = (double)y;
+	fdf->xyz[points].ini_z = (double)fdf->map_tmp[y][x];
 	fdf->xyz[points].color = (double)fdf->color[points];
 }
 
@@ -38,12 +40,12 @@ void	set_coordinates(t_info *fdf)
 		x = 0;
 		while (x < fdf->x_len)
 		{
-			set_xyz_color(fdf, points, x, y);
+			set_xyzandcolor(fdf, points, x, y);
 			x++;
 			points++;
 		}
 		y++;
 	}
-	free_mapint(fdf, fdf->map_int);
+	free_mapint(fdf, fdf->map_tmp);
 	fdf->points = points;
 }

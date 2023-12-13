@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:30 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 17:04:09 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/12 20:58:59 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	set_len(char **splitedline, int *x_len, int *tmp_x_len, int *y_len)
 	if (*y_len == 0)
 		*x_len = *tmp_x_len;
 	if (*y_len != 0 && *tmp_x_len != *x_len)
-		ft_put_originalerror("map is invalid!");
+		ft_put_originalerror("Found wrong line length. Exiting.");
 	*x_len = *tmp_x_len;
 }
 

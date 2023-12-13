@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:59 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 17:41:46 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/13 20:18:38 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,24 @@ static void	prepare_fdf(t_info *fdf)
 {
 	fdf->color = (int *)malloc((fdf->x_len * fdf->y_len) * sizeof(int));
 	if (fdf->color == NULL)
-		ft_put_originalerror("malloc");
-	fdf->map_int = (int **)malloc((fdf->y_len) * sizeof(int *));
-	if (fdf->map_int == NULL)
-		ft_put_originalerror("malloc");
+		ft_put_originalerror("Failed to allocate memory!");
+	fdf->map_tmp = (int **)malloc((fdf->y_len) * sizeof(int *));
+	if (fdf->map_tmp == NULL)
+		ft_put_originalerror("Failed to allocate memory!");
 }
 
 static int	ft_atoi_color(const char *str)
 {
 	long	num;
+	int		i;
 
 	num = 0;
 	while (*str != 'x')
 		str++;
 	str++;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			ft_put_originalerror("map is invalid!");
-		str++;
-	}
-	while ((*str >= '0' && *str <= '9') || (*str >= 'A' && *str <= 'F')
-		|| (*str >= 'a' && *str <= 'f'))
+	i = 0;
+	while (i < 6 && ((*str >= '0' && *str <= '9')
+			|| (*str >= 'A' && *str <= 'F') || (*str >= 'a' && *str <= 'f')))
 	{
 		if (*str >= '0' && *str <= '9')
 			num = (16 * num) + (*str - '0');
@@ -48,13 +44,14 @@ static int	ft_atoi_color(const char *str)
 		else if (*str >= 'a' && *str <= 'f')
 			num = (16 * num) + (*str - 'a' + 10);
 		str++;
+		i++;
 	}
-	return ((int)num);
+	return ((int)(num));
 }
 
 static void	set_mapinfo_tmp(t_info *fdf, char **splitedline, int x, int y)
 {
-	fdf->map_int[y][x] = ft_atoi(splitedline[x]);
+	fdf->map_tmp[y][x] = ft_atoi(splitedline[x]);
 	if (ft_strchr(splitedline[x], ',') != NULL)
 		fdf->color[x + fdf->x_len * y] = ft_atoi_color(splitedline[x]);
 	else
@@ -76,9 +73,9 @@ static void	read_map(t_info *fdf, int map_fd)
 		splitedline = ft_split(oneline, ' ');
 		if (splitedline == NULL)
 			ft_put_originalerror("failed to read the map!");
-		fdf->map_int[y] = (int *)malloc((fdf->x_len) * sizeof(int));
-		if (fdf->map_int[y] == NULL)
-			ft_put_originalerror("malloc");
+		fdf->map_tmp[y] = (int *)malloc((fdf->x_len) * sizeof(int));
+		if (fdf->map_tmp[y] == NULL)
+			ft_put_originalerror("Failed to allocate memory!");
 		x = 0;
 		while (x < fdf->x_len)
 		{

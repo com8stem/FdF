@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:29 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 14:59:47 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/13 21:53:35 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,23 +74,12 @@ static void	enlarge_frame(t_info *fdf)
 	}
 }
 
-static void	move_frame(t_info *fdf)
+static void	get_inimovevalue(t_info *fdf)
 {
-	int		point_index;
-	double	move_value_x;
-	double	move_value_y;
-
 	get_min_coordinates(fdf);
 	get_max_coordinates(fdf);
-	move_value_x = (WIDTH / 2) - ((fdf->max_x + fdf->min_x) / 2);
-	move_value_y = (HEIGHT / 2) - ((fdf->max_y + fdf->min_y) / 2);
-	point_index = 0;
-	while (point_index < fdf->points)
-	{
-		fdf->xyz[point_index].x = fdf->xyz[point_index].x + move_value_x;
-		fdf->xyz[point_index].y = fdf->xyz[point_index].y + move_value_y;
-		point_index++;
-	}
+	fdf->move_x = (WIDTH / 2) - ((fdf->max_x + fdf->min_x) / 2);
+	fdf->move_y = (HEIGHT / 2) - ((fdf->max_y + fdf->min_y) / 2);
 }
 
 int	convert_coordinates(t_info *fdf)
@@ -98,6 +87,7 @@ int	convert_coordinates(t_info *fdf)
 	rotate_z_axis(fdf);
 	rotate_x_axis(fdf);
 	enlarge_frame(fdf);
-	move_frame(fdf);
+	get_inimovevalue(fdf);
+	move_frame(fdf, fdf->move_x, fdf->move_y);
 	return (NO_ERROR);
 }

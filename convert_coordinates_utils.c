@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 21:20:19 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 17:08:33 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/13 22:04:22 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,32 @@ void	get_max_min_z_coordinates(t_info *fdf)
 	}
 	fdf->max_z = max_z;
 	fdf->min_z = min_z;
+}
+
+void	move_frame(t_info *fdf, double move_x, double move_y)
+{
+	int		point_index;
+
+	point_index = 0;
+	while (point_index < fdf->points)
+	{
+		fdf->xyz[point_index].x = fdf->xyz[point_index].x + move_x;
+		fdf->xyz[point_index].y = fdf->xyz[point_index].y + move_y;
+		point_index++;
+	}
+}
+
+void	reset_draw(t_info *fdf)
+{
+	int	point_index;
+
+	point_index = 0;
+	while (point_index < fdf->points)
+	{
+		fdf->xyz[point_index].x = fdf->xyz[point_index].ini_x;
+		fdf->xyz[point_index].y = fdf->xyz[point_index].ini_y;
+		fdf->xyz[point_index].z = fdf->xyz[point_index].ini_z;
+		point_index++;
+	}
+	convert_coordinates(fdf);
 }

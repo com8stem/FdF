@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 20:01:21 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 20:43:03 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/13 22:06:40 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,26 @@
 # define HEIGHT 1000
 
 # define KEY_ESC 53
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_R 15
 
 typedef struct s_coordinate
 {
 	double	x;
 	double	y;
 	double	z;
+	double	ini_x;
+	double	ini_y;
 	double	ini_z;
 	int		color;
 }	t_coordinates;
 
 typedef struct s_info
 {
-	int				**map_int;
+	int				**map_tmp;
 	t_coordinates	*xyz;
 	int				x_len;
 	int				y_len;
@@ -57,6 +64,8 @@ typedef struct s_info
 	int				max_y;
 	int				max_z;
 	int				points;
+	double			move_x;
+	double			move_y;
 }	t_info;
 
 typedef struct s_lineinfo
@@ -71,20 +80,20 @@ typedef struct s_lineinfo
 	int	end_color;
 }	t_lineinfo;
 
-typedef struct s_data
+typedef struct s_imgdata
 {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}	t_data;
+}	t_imgdata;
 
 typedef struct s_colordata
 {
-	int	color_step_r;
-	int	color_step_g;
-	int	color_step_b;
+	int	dred;
+	int	dgreen;
+	int	dblue;
 	int	r;
 	int	g;
 	int	b;
@@ -118,9 +127,12 @@ void	get_max_coordinates(t_info *fdf);
 
 void	get_max_min_z_coordinates(t_info *fdf);
 
-int		draw_wireframe(t_info *fdf, t_data *img);
-void	drawline(t_lineinfo line, t_data *img);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	move_frame(t_info *fdf, double move_x, double move_y);
+void	reset_draw(t_info *fdf);
+
+int		draw_wireframe(t_info *fdf, t_imgdata *img);
+void	drawline(t_lineinfo line, t_imgdata *img);
+void	my_mlx_pixel_put(t_imgdata *data, int x, int y, int color);
 
 void	ft_free_splited(char **splittedline, char *oneline);
 void	free_mapint(t_info *fdf, int **map_int);

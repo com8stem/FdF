@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:02:11 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/12 17:04:44 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/15 19:14:47 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,12 @@ static int	checklen(char *filename)
 	return (NO_ERROR);
 }
 
-static int	checkdot(char *filename)
-{
-	int	dotcount;
-
-	dotcount = 0;
-	while (*filename != '\0')
-	{
-		if (*filename == '.')
-			dotcount++;
-		filename++;
-	}
-	if (dotcount > 1)
-		ft_put_originalerror("extension is invalid!");
-	return (NO_ERROR);
-}
-
 int	check_filename(char *filename)
 {
 	checklen(filename);
-	checkdot(filename);
-	while (*filename != '.')
+	while (*filename != '\0')
 		filename++;
+	filename = filename - ft_strlen(".fdf");
 	if (ft_strncmp(filename, ".fdf\0", ft_strlen(".fdf") + 1) != 0)
 		ft_put_originalerror("extension is invalid!");
 	return (NO_ERROR);

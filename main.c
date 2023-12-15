@@ -6,70 +6,11 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:00:07 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/13 22:06:52 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/15 19:09:07 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-typedef struct s_vars {
-	void		*mlx;
-	void		*win;
-	t_info		*fdf;
-	t_imgdata	*img;
-}	t_vars;
-
-int	x_close_win(void)
-{
-	exit(EXIT_SUCCESS);
-	return (NO_ERROR);
-}
-
-int judge_keycode(int keycode)
-{
-	if (keycode == KEY_UP || keycode == KEY_DOWN
-	|| keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_PLUS || keycode == KEY_MINUS || keycode == KEY_R)
-	{
-		return (1);
-	}
-	return (0);
-}
-
-int	key_hook(int keycode, t_vars *vars)
-{
-	if (judge_keycode(keycode))
-	{
-		ft_bzero(vars->img->addr,
-			WIDTH * HEIGHT * (vars->img->bits_per_pixel / 8));
-		if (keycode == KEY_UP)
-			move_frame(vars->fdf, 0, -4);
-		else if (keycode == KEY_DOWN)
-			move_frame(vars->fdf, 0, 4);
-		else if (keycode == KEY_LEFT)
-			move_frame(vars->fdf, -4, 0);
-		else if (keycode == KEY_RIGHT)
-			move_frame(vars->fdf, 4, 0);
-		else if (keycode == KEY_PLUS || keycode == KEY_MINUS)
-		{
-			if (keycode == KEY_PLUS)
-				enlarge_frame(vars->fdf, 1.1, 1.1);
-			else if (keycode == KEY_MINUS)
-				enlarge_frame(vars->fdf, 0.9, 0.9);
-			get_inimovevalue(vars->fdf);
-			move_frame(vars->fdf, vars->fdf->move_x, vars->fdf->move_y);
-		}
-		else if (keycode == KEY_R)
-			reset_draw(vars->fdf);
-		draw_wireframe(vars->fdf, vars->img);
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-	}
-	else if (keycode == KEY_ESC)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit(EXIT_SUCCESS);
-	}
-	return (NO_ERROR);
-}
 
 int	create_window(t_vars *vars, t_imgdata *img)
 {
@@ -80,17 +21,6 @@ int	create_window(t_vars *vars, t_imgdata *img)
 			&img->line_length, &img->endian);
 	return (NO_ERROR);
 }
-
-void	set_eventhook(t_vars *vars)
-{
-	mlx_hook(vars->win, 2, 1L << 0, key_hook, vars);
-	mlx_hook(vars->win, 17, 1L << 17, x_close_win, NULL);
-}
-
-// __attribute__((destructor))
-// static void destructor() {
-//     system("leaks -q fdf");
-// }
 
 int	main(int argc, char **argv)
 {

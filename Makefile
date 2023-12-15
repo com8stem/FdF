@@ -4,7 +4,8 @@ SRCS = main.c\
 		check_filename.c\
 		check_map.c\
 		convert_coordinates.c\
-		convert_coordinates_utils.c\
+		convert_coordinates_2.c\
+		convert_coordinates_3.c\
 		draw_wireframe.c\
 		draw_wireframe_2.c\
 		get_mapinfo.c\
@@ -12,7 +13,8 @@ SRCS = main.c\
 		get_next_line.c\
 		get_next_line_second.c\
 		put_error.c\
-		fdf_utils.c
+		fdf_utils.c\
+		event_hook.c
 OBJS = $(SRCS:.c=.o)
 HEADER = fdf.h
 INCDIR = .
@@ -45,4 +47,6 @@ fclean:	clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus:	all
+
+.PHONY: all clean fclean re bonus

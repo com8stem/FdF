@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 21:20:19 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/13 22:04:22 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/15 17:38:55 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,19 +123,4 @@ void	enlarge_frame(t_info *fdf, double enlarge_rate_x, double enlarge_rate_y)
 		fdf->xyz[point_index].y = fdf->xyz[point_index].y * rate;
 		point_index++;
 	}
-}
-
-void	reset_draw(t_info *fdf)
-{
-	int	point_index;
-
-	point_index = 0;
-	while (point_index < fdf->points)
-	{
-		fdf->xyz[point_index].x = fdf->xyz[point_index].ini_x;
-		fdf->xyz[point_index].y = fdf->xyz[point_index].ini_y;
-		fdf->xyz[point_index].z = fdf->xyz[point_index].ini_z;
-		point_index++;
-	}
-	convert_coordinates(fdf);
 }

@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:29 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/13 21:53:35 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/15 17:39:51 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	rotate_x_axis(t_info *fdf)
 		point_index++;
 	}
 }
-
 
 static void	get_inienlargevalue(t_info *fdf)
 {

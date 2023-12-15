@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 20:01:21 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/13 22:06:40 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/15 19:05:52 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <stdio.h>
 # include "mlx.h"
 # include "./libft/libft.h"
-// #include <X11/X.h> // for Linux
-// #include <X11/keysym.h> // for Linux
 
 # define NO_ERROR 0
 # define BUFFER_SIZE 10000
@@ -38,6 +36,8 @@
 #  define KEY_LEFT 123
 #  define KEY_RIGHT 124
 #  define KEY_R 15
+#  define KEY_PLUS 24
+#  define KEY_MINUS 27
 # endif
 
 # ifdef __linux__
@@ -125,6 +125,13 @@ typedef struct s_bresendata
 	int	e2;
 }	t_bresendata;
 
+typedef struct s_vars {
+	void		*mlx;
+	void		*win;
+	t_info		*fdf;
+	t_imgdata	*img;
+}	t_vars;
+
 char	*get_next_line(int fd);
 char	*get_next_line_second(int fd);
 
@@ -139,12 +146,11 @@ int		get_mapinfo(t_info *fdf, char *filename);
 int		convert_coordinates(t_info *fdf);
 void	get_min_coordinates(t_info *fdf);
 void	get_max_coordinates(t_info *fdf);
-
 void	get_max_min_z_coordinates(t_info *fdf);
-
 void	get_inimovevalue(t_info *fdf);
 void	move_frame(t_info *fdf, double move_x, double move_y);
-void	enlarge_frame(t_info *fdf, double enlarge_rate_x, double enlarge_rate_y);
+void	enlarge_frame(t_info *fdf,
+			double enlarge_rate_x, double enlarge_rate_y);
 void	reset_draw(t_info *fdf);
 
 int		draw_wireframe(t_info *fdf, t_imgdata *img);
@@ -153,5 +159,7 @@ void	my_mlx_pixel_put(t_imgdata *data, int x, int y, int color);
 
 void	ft_free_splited(char **splittedline, char *oneline);
 void	free_mapint(t_info *fdf, int **map_int);
+
+void	set_eventhook(t_vars *vars);
 
 #endif

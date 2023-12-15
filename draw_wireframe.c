@@ -6,7 +6,7 @@
 /*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 20:03:57 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/13 20:33:14 by kishizu          ###   ########.fr       */
+/*   Updated: 2023/12/15 19:24:40 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	my_mlx_pixel_put(t_imgdata *img, int x, int y, int color)
 {
 	char	*dst;
 
-	if (!((x > WIDTH || y > HEIGHT) || (x < 0 || y < 0)))
+	if (!((x >= WIDTH || y >= HEIGHT) || (x <= 0 || y <= 0)))
 	{
 		dst = img->addr + (y * img->line_length + x
 				* (img->bits_per_pixel / 8));

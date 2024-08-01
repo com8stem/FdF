@@ -20,15 +20,17 @@ HEADER = fdf.h
 INCDIR = .
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LINUX_MLXFLAGS = -lmlx_Linux -lXext -lX11 -lm #for Linux
+LINUX_MLXFLAGS = -lXext -lX11 -lm #for Linux
 MLXFLAGS = -Imlx -lmlx -framework OpenGL -framework AppKit -lm
 LIBDIR = ./libft
 LIBFT = ./libft/libft.a
+MLXDIR = ./minilibx-linux
+MLXLIB = ./minilibx-linux/libmlx_Linux.a
 
 all:	$(NAME)
 
-$(NAME):	$(OBJS) $(LIBFT)
-	@$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(MLXFLAGS) -o $(NAME)
+$(NAME):	$(OBJS) $(LIBFT) $(MLXLIB)
+	@$(CC) $(OBJS) $(LIBFT) $(MLXLIB) $(CFLAGS) $(LINUX_MLXFLAGS) -o $(NAME)
 
 %.o: %.c $(HEADER)
 	@$(CC) $(CFLAGS)	-c $< -o $@ -I $(INCDIR)
@@ -37,16 +39,19 @@ $(NAME):	$(OBJS) $(LIBFT)
 $(LIBFT):
 	@make -C $(LIBDIR)
 
+$(MLXLIB):
+	@make -C $(MLXDIR)
+
 clean:
 	@rm -rf $(OBJS)
-	make clean -C $(LIBDIR)
+	@make clean -C $(LIBDIR)
+	@make clean -C $(MLXDIR)
 
 fclean:	clean
 	@rm -rf $(NAME)
-	make fclean -C $(LIBDIR)
+	@make fclean -C $(LIBDIR)
+	@make fclean -C $(MLXDIR)
 
 re: fclean all
 
-bonus:	all
-
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

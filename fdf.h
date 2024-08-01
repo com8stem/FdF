@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kishizu <kishizu@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: kishizu <kishizu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 20:01:21 by kishizu           #+#    #+#             */
-/*   Updated: 2023/12/15 19:05:52 by kishizu          ###   ########.fr       */
+/*   Updated: 2024/08/01 21:40:38 by kishizu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
-# include "mlx.h"
+# include "./minilibx-linux/mlx.h"
 # include "./libft/libft.h"
 
 # define NO_ERROR 0
